@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:kidquest/screens/Splash_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:little_scholars/providers/language_provider.dart';
+import 'package:little_scholars/providers/progress_provider.dart';
+import 'package:little_scholars/screens/Splash_screen.dart';
 import 'screens/landing_page_screen.dart';
 
 void main() {
-  runApp(const KidQuestApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => LanguageProvider()),
+        ChangeNotifierProvider(create: (_) => ProgressProvider()),
+      ],
+      child: const KidQuestApp(),
+    ),
+  );
 }
 
 class KidQuestApp extends StatelessWidget {
@@ -27,7 +38,7 @@ class KidQuestApp extends StatelessWidget {
           Theme.of(context).textTheme,
         ),
       ),
-      home: SplashScreen(),
+      home: const SplashScreen(),
     );
   }
 }

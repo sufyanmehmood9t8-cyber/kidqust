@@ -54,126 +54,129 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.85,
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(30),
-          topRight: Radius.circular(30),
+    return Material(
+      color: Colors.transparent,
+      child: Container(
+        height: MediaQuery.of(context).size.height * 0.85,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
+          ),
         ),
-      ),
-      child: Column(
-        children: [
-          // Drag Handle
-          const SizedBox(height: 12),
-          Container(
-            width: 50,
-            height: 5,
-            decoration: BoxDecoration(
-              color: Colors.grey[300],
-              borderRadius: BorderRadius.circular(10),
+        child: Column(
+          children: [
+            // Drag Handle
+            const SizedBox(height: 12),
+            Container(
+              width: 50,
+              height: 5,
+              decoration: BoxDecoration(
+                color: Colors.grey[300],
+                borderRadius: BorderRadius.circular(10),
+              ),
             ),
-          ),
-          const SizedBox(height: 10),
-          // Header
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Parent Settings',
-                  style: GoogleFonts.baloo2(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: _settings.themeColor,
+            const SizedBox(height: 10),
+            // Header
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Parent Settings',
+                    style: GoogleFonts.baloo2(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: _settings.themeColor,
+                    ),
                   ),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.close_rounded, size: 28),
-                  onPressed: () => Navigator.pop(context),
-                ),
-              ],
+                  IconButton(
+                    icon: const Icon(Icons.close_rounded, size: 28),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ],
+              ),
             ),
-          ),
-          const Divider(height: 1),
-          // Content
-          Expanded(
-            child: ListView(
-              padding: EdgeInsets.zero,
-              children: [
-                _buildSectionHeader('Sound & Music'),
-                _buildSwitchTile(
-                  'Background Music',
-                  'Play soft background music',
-                  _settings.isMusicEnabled,
-                  (v) => _settings.updateSettings(music: v),
-                ),
-                _buildSwitchTile(
-                  'Sound Effects',
-                  'Play "Ding" and "Pop" sounds',
-                  _settings.isSoundEffectsEnabled,
-                  (v) => _settings.updateSettings(sounds: v),
-                ),
-                
-                _buildSectionHeader('App Customization'),
-                _buildDropdownTile(
-                  'App Language',
-                  'Select UI language',
-                  _settings.language,
-                  ['English', 'Urdu'],
-                  (v) => _settings.updateSettings(lang: v),
-                ),
-                _buildThemeColorPicker(),
+            const Divider(height: 1),
+            // Content
+            Expanded(
+              child: ListView(
+                padding: EdgeInsets.zero,
+                children: [
+                  _buildSectionHeader('Sound & Music'),
+                  _buildSwitchTile(
+                    'Background Music',
+                    'Play soft background music',
+                    _settings.isMusicEnabled,
+                    (v) => _settings.updateSettings(music: v),
+                  ),
+                  _buildSwitchTile(
+                    'Sound Effects',
+                    'Play "Ding" and "Pop" sounds',
+                    _settings.isSoundEffectsEnabled,
+                    (v) => _settings.updateSettings(sounds: v),
+                  ),
+                  
+                  _buildSectionHeader('App Customization'),
+                  _buildDropdownTile(
+                    'App Language',
+                    'Select UI language',
+                    _settings.language,
+                    ['English', 'Urdu'],
+                    (v) => _settings.updateSettings(lang: v),
+                  ),
+                  _buildThemeColorPicker(),
 
-                _buildSectionHeader('Progress & Reports'),
-                _buildActionTile(
-                  'Reset Progress',
-                  'Clear stars and high scores',
-                  Icons.restart_alt_rounded,
-                  Colors.red,
-                  _resetProgress,
-                ),
-                _buildActionTile(
-                  'Learning Reports',
-                  'Review activity summary',
-                  Icons.analytics_rounded,
-                  Colors.blue,
-                  () {
-                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Report: You have studied for 15 minutes today!')),
-                    );
-                  },
-                ),
+                  _buildSectionHeader('Progress & Reports'),
+                  _buildActionTile(
+                    'Reset Progress',
+                    'Clear stars and high scores',
+                    Icons.restart_alt_rounded,
+                    Colors.red,
+                    _resetProgress,
+                  ),
+                  _buildActionTile(
+                    'Learning Reports',
+                    'Review activity summary',
+                    Icons.analytics_rounded,
+                    Colors.blue,
+                    () {
+                       ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Report: You have studied for 15 minutes today!')),
+                      );
+                    },
+                  ),
 
-                _buildSectionHeader('Support & Legal'),
-                _buildActionTile(
-                  'Rate Us',
-                  'Support KidQuest on Play Store',
-                  Icons.star_rate_rounded,
-                  Colors.orange,
-                  () => _launchUrl('https://play.google.com/store/apps'),
-                ),
-                _buildActionTile(
-                  'Privacy Policy',
-                  'How we protect your data',
-                  Icons.privacy_tip_rounded,
-                  Colors.grey,
-                  () => _launchUrl('https://kidquestapp.example/privacy'),
-                ),
-                _buildActionTile(
-                  'Contact Us',
-                  'Send us an email',
-                  Icons.email_rounded,
-                  Colors.teal,
-                  () => _launchUrl('mailto:support@kidquestapp.example'),
-                ),
-                const SizedBox(height: 40),
-              ],
+                  _buildSectionHeader('Support & Legal'),
+                  _buildActionTile(
+                    'Rate Us',
+                    'Support KidQuest on Play Store',
+                    Icons.star_rate_rounded,
+                    Colors.orange,
+                    () => _launchUrl('https://play.google.com/store/apps'),
+                  ),
+                  _buildActionTile(
+                    'Privacy Policy',
+                    'How we protect your data',
+                    Icons.privacy_tip_rounded,
+                    Colors.grey,
+                    () => _launchUrl('https://kidquestapp.example/privacy'),
+                  ),
+                  _buildActionTile(
+                    'Contact Us',
+                    'Send us an email',
+                    Icons.email_rounded,
+                    Colors.teal,
+                    () => _launchUrl('mailto:support@kidquestapp.example'),
+                  ),
+                  const SizedBox(height: 40),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
